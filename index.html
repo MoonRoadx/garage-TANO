@@ -1,34 +1,127 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema di tracciamento interventi meccanici con tecnologia NFC">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="TANO Garage">
+    
     <title>Garage NFC - Tracciamento Interventi</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.0/jspdf.plugin.autotable.min.js"></script>
+    
     <style>
+        /* ---------- Fond d'écran principal ---------- */
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: url('Background.png') no-repeat center center fixed;
+            background-size: cover;
+            background-position: center top;
+            color: white;
+            min-height: 100vh;
+            opacity: 0;
+            animation: fadeIn 1s ease-in-out forwards;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(2px);
+            z-index: -1;
+        }
+
+        #app {
+            background: rgba(0,0,0,0.35);
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        /* ---------- Effet verre dépoli ---------- */
+        .bg-white {
+            background-color: rgba(255,255,255,0.14) !important;
+            -webkit-backdrop-filter: blur(10px) saturate(120%);
+            backdrop-filter: blur(10px) saturate(120%);
+            border: 1px solid rgba(255,255,255,0.22);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+            transition: all 0.4s ease;
+        }
+        .bg-blue-600 {
+            background-color: rgba(37,99,235,0.80) !important;
+            -webkit-backdrop-filter: blur(8px) saturate(120%);
+            backdrop-filter: blur(8px) saturate(120%);
+            border-bottom: 1px solid rgba(255,255,255,0.18);
+        }
+        .bg-green-600, .bg-green-700, .bg-red-600 {
+            filter: saturate(115%);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+        }
+
+        /* ---------- Inputs lisibles ---------- */
+        input, textarea, select {
+            color: #111 !important;
+            background-color: #fff !important;
+            border: 1px solid #d1d5db !important;
+        }
+        input::placeholder, textarea::placeholder {
+            color: #666 !important;
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.35);
+            border-color: #3b82f6 !important;
+        }
+
+        /* ---------- Mobile / tablette ---------- */
+        @media (max-width: 768px) {
+            body {
+                background: url('Background.png') no-repeat center center fixed;
+                background-size: contain;
+                background-color: #000;
+            }
+            #app {
+                background: rgba(0,0,0,0.6);
+            }
+            .bg-white {
+                background-color: rgba(255,255,255,0.18) !important;
+                -webkit-backdrop-filter: blur(12px) saturate(120%);
+                backdrop-filter: blur(12px) saturate(120%);
+            }
+        }
+
+        /* ---------- Animation fade-in ---------- */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
+
 <body class="bg-gray-100">
     <div id="app">Caricamento...</div>
 
     <script>
-        // Funzione per recuperare i parametri URL
         function getUrlParameter(name) {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(name);
         }
 
-        // Database locale
         let vehicles = {};
         let currentVehicle = null;
         let showAddForm = false;
 
-        // Caricare i dati da localStorage
         function loadData() {
             try {
                 const stored = localStorage.getItem('garage_vehicles');
@@ -40,18 +133,14 @@
                 vehicles = {};
             }
 
-            // Verificare se c'è una targa nell'URL
             const targaFromUrl = getUrlParameter('targa');
             if (targaFromUrl) {
                 const targaUpper = targaFromUrl.toUpperCase();
                 
-                // Se il veicolo esiste, aprirlo
                 if (vehicles[targaUpper]) {
                     currentVehicle = targaUpper;
                 } else {
-                    // Altrimenti, proporre di crearlo
                     if (confirm(`Il veicolo ${targaUpper} non esiste ancora.\n\nVuoi crearlo ora?`)) {
-                        // Lo creeremo dopo il render
                         setTimeout(() => {
                             const input = document.getElementById('newVehicleTarga');
                             if (input) {
@@ -66,7 +155,6 @@
             render();
         }
 
-        // Salvare i dati
         function saveData() {
             try {
                 localStorage.setItem('garage_vehicles', JSON.stringify(vehicles));
@@ -76,7 +164,6 @@
             }
         }
 
-        // Aggiungere un veicolo
         function addVehicle() {
             const targa = document.getElementById('newVehicleTarga').value.toUpperCase().trim();
             const marca = document.getElementById('newVehicleMarca').value.trim();
@@ -103,7 +190,6 @@
             render();
         }
 
-        // Aggiungere un intervento
         function addIntervento() {
             const data = document.getElementById('interventoData').value;
             const tipo = document.getElementById('interventoTipo').value;
@@ -143,7 +229,6 @@
             render();
         }
 
-        // Eliminare un intervento
         function deleteIntervento(id) {
             if (!confirm('Eliminare questo intervento?')) return;
             
@@ -154,7 +239,6 @@
             render();
         }
 
-        // Eliminare un veicolo
         function deleteVehicle(targa) {
             if (!confirm(`Eliminare definitivamente il veicolo ${targa} e tutto lo storico?`)) return;
             
@@ -163,7 +247,6 @@
             render();
         }
 
-        // Esportare in CSV
         function exportToExcel() {
             const vehicle = vehicles[currentVehicle];
             
@@ -189,7 +272,6 @@
             document.body.removeChild(element);
         }
 
-        // Esportare in TXT
         function exportToPDF() {
             const vehicle = vehicles[currentVehicle];
             
@@ -218,7 +300,6 @@
             document.body.removeChild(element);
         }
 
-        // Filtrare i veicoli
         function filterVehicles() {
             const search = document.getElementById('searchInput').value.toLowerCase();
             const vehiclesList = Object.values(vehicles).filter(v =>
@@ -230,7 +311,6 @@
             renderVehiclesList(vehiclesList);
         }
 
-        // Render lista veicoli
         function renderVehiclesList(filteredVehicles) {
             const container = document.getElementById('vehiclesList');
             
@@ -276,11 +356,9 @@
             `).join('');
         }
 
-        // Render principale
         function render() {
             const app = document.getElementById('app');
 
-            // Vista lista veicoli
             if (!currentVehicle) {
                 const vehiclesList = Object.values(vehicles);
                 
@@ -334,7 +412,6 @@
                 return;
             }
 
-            // Vista dettaglio veicolo
             const vehicle = vehicles[currentVehicle];
 
             if (!showAddForm) {
@@ -407,7 +484,6 @@
                     </div>
                 `;
             } else {
-                // Form aggiunta intervento
                 const today = new Date().toISOString().split('T')[0];
                 
                 app.innerHTML = `
@@ -492,8 +568,17 @@
             }
         }
 
-        // Avviare l'applicazione
         loadData();
+        
+        // Enregistrer le Service Worker pour PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(reg => console.log('✅ Service Worker registrato'))
+                    .catch(err => console.log('❌ Errore Service Worker:', err));
+            });
+        }
     </script>
 </body>
+
 </html>
