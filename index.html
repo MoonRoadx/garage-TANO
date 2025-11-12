@@ -160,6 +160,222 @@
     <div id="app">Caricamento...</div>
 
     <script>
+        // ========== SYSTÈME MULTILINGUE ==========
+        let currentLang = localStorage.getItem('app_language') || 'it';
+        
+        const translations = {
+            it: {
+                appName: "Tano Evoluzione",
+                subtitle: "🔧 Officina • Elettrauto • Aria Condizionata",
+                loading: "Caricamento...",
+                search: "🔍 Cerca un veicolo...",
+                newVehicle: "➕ Nuovo Veicolo",
+                plate: "Targa",
+                brand: "Marca",
+                model: "Modello",
+                year: "Anno",
+                mileage: "Chilometraggio",
+                addVehicle: "Aggiungi Veicolo",
+                vehicles: "🚗 Veicoli",
+                noVehicles: "Nessun veicolo trovato",
+                back: "← Indietro",
+                newIntervention: "➕ Nuovo Intervento",
+                exportTxt: "📄 Esporta TXT",
+                exportCsv: "📊 Esporta CSV",
+                history: "📋 Storico",
+                noInterventions: "Nessun intervento registrato",
+                date: "📅 Data",
+                workType: "🔧 Tipo di lavoro",
+                selectType: "Seleziona...",
+                description: "📝 Descrizione",
+                descPlaceholder: "Dettagli dell'intervento...",
+                parts: "🔩 Ricambi sostituiti",
+                partsPlaceholder: "Es: Pastiglie anteriori, dischi...",
+                cost: "💰 Costo (€)",
+                mechanic: "👤 Meccanico",
+                mechanicPlaceholder: "Nome del meccanico",
+                notes: "💬 Note / Osservazioni",
+                notesPlaceholder: "Osservazioni, raccomandazioni, prossimi interventi...",
+                save: "✅ Salva",
+                cancel: "❌ Annulla",
+                delete: "Eliminare",
+                confirmDelete: "Eliminare questo intervento?",
+                confirmDeleteVehicle: "Eliminare definitivamente il veicolo",
+                vehicleNotExist: "Il veicolo",
+                createNow: "non esiste ancora.\n\nVuoi crearlo ora?",
+                plateRequired: "Targa obbligatoria",
+                typeDescRequired: "Tipo e descrizione obbligatori",
+                saveError: "Errore durante il salvataggio",
+                noDate: "Data non specificata",
+                // Types d'interventions
+                types: {
+                    oilChange: "Cambio Olio",
+                    oilFilter: "Filtro Olio",
+                    airFilter: "Filtro Aria",
+                    fuelFilter: "Filtro Carburante",
+                    cabinFilter: "Filtro Abitacolo",
+                    sparkPlugs: "Candele",
+                    timing: "Distribuzione",
+                    brakes: "Freni",
+                    tires: "Pneumatici",
+                    clutch: "Frizione",
+                    service: "Revisione",
+                    ac: "Aria Condizionata",
+                    diagnostic: "Diagnostica",
+                    bodywork: "Carrozzeria",
+                    electrical: "Elettrico/Elettrauto",
+                    suspension: "Sospensioni",
+                    exhaust: "Scarico",
+                    other: "Altro"
+                }
+            },
+            fr: {
+                appName: "Tano Evoluzione",
+                subtitle: "🔧 Garage • Électricien Auto • Climatisation",
+                loading: "Chargement...",
+                search: "🔍 Rechercher un véhicule...",
+                newVehicle: "➕ Nouveau Véhicule",
+                plate: "Immatriculation",
+                brand: "Marque",
+                model: "Modèle",
+                year: "Année",
+                mileage: "Kilométrage",
+                addVehicle: "Ajouter le Véhicule",
+                vehicles: "🚗 Véhicules",
+                noVehicles: "Aucun véhicule trouvé",
+                back: "← Retour",
+                newIntervention: "➕ Nouvelle Intervention",
+                exportTxt: "📄 Export TXT",
+                exportCsv: "📊 Export CSV",
+                history: "📋 Historique",
+                noInterventions: "Aucune intervention enregistrée",
+                date: "📅 Date",
+                workType: "🔧 Type de travaux",
+                selectType: "Sélectionner...",
+                description: "📝 Description",
+                descPlaceholder: "Détails de l'intervention...",
+                parts: "🔩 Pièces changées",
+                partsPlaceholder: "Ex: Plaquettes avant, disques...",
+                cost: "💰 Coût (€)",
+                mechanic: "👤 Mécanicien",
+                mechanicPlaceholder: "Nom du mécanicien",
+                notes: "💬 Commentaires / Observations",
+                notesPlaceholder: "Observations, recommandations, prochaines interventions...",
+                save: "✅ Enregistrer",
+                cancel: "❌ Annuler",
+                delete: "Supprimer",
+                confirmDelete: "Supprimer cette intervention ?",
+                confirmDeleteVehicle: "Supprimer définitivement le véhicule",
+                vehicleNotExist: "Le véhicule",
+                createNow: "n'existe pas encore.\n\nVoulez-vous le créer maintenant ?",
+                plateRequired: "Immatriculation obligatoire",
+                typeDescRequired: "Type et description obligatoires",
+                saveError: "Erreur lors de la sauvegarde",
+                noDate: "Date non spécifiée",
+                types: {
+                    oilChange: "Vidange",
+                    oilFilter: "Filtre à Huile",
+                    airFilter: "Filtre à Air",
+                    fuelFilter: "Filtre Carburant",
+                    cabinFilter: "Filtre Habitacle",
+                    sparkPlugs: "Bougies",
+                    timing: "Distribution",
+                    brakes: "Freins",
+                    tires: "Pneus",
+                    clutch: "Embrayage",
+                    service: "Révision",
+                    ac: "Climatisation",
+                    diagnostic: "Diagnostic",
+                    bodywork: "Carrosserie",
+                    electrical: "Électrique/Électrauto",
+                    suspension: "Suspension",
+                    exhaust: "Échappement",
+                    other: "Autre"
+                }
+            },
+            en: {
+                appName: "Tano Evoluzione",
+                subtitle: "🔧 Workshop • Auto Electrician • Air Conditioning",
+                loading: "Loading...",
+                search: "🔍 Search a vehicle...",
+                newVehicle: "➕ New Vehicle",
+                plate: "License Plate",
+                brand: "Brand",
+                model: "Model",
+                year: "Year",
+                mileage: "Mileage",
+                addVehicle: "Add Vehicle",
+                vehicles: "🚗 Vehicles",
+                noVehicles: "No vehicles found",
+                back: "← Back",
+                newIntervention: "➕ New Service",
+                exportTxt: "📄 Export TXT",
+                exportCsv: "📊 Export CSV",
+                history: "📋 History",
+                noInterventions: "No services recorded",
+                date: "📅 Date",
+                workType: "🔧 Work Type",
+                selectType: "Select...",
+                description: "📝 Description",
+                descPlaceholder: "Service details...",
+                parts: "🔩 Parts Replaced",
+                partsPlaceholder: "Ex: Front brake pads, discs...",
+                cost: "💰 Cost (€)",
+                mechanic: "👤 Mechanic",
+                mechanicPlaceholder: "Mechanic name",
+                notes: "💬 Notes / Observations",
+                notesPlaceholder: "Observations, recommendations, upcoming services...",
+                save: "✅ Save",
+                cancel: "❌ Cancel",
+                delete: "Delete",
+                confirmDelete: "Delete this service?",
+                confirmDeleteVehicle: "Permanently delete vehicle",
+                vehicleNotExist: "Vehicle",
+                createNow: "does not exist yet.\n\nWould you like to create it now?",
+                plateRequired: "License plate required",
+                typeDescRequired: "Type and description required",
+                saveError: "Error saving data",
+                noDate: "Date not specified",
+                types: {
+                    oilChange: "Oil Change",
+                    oilFilter: "Oil Filter",
+                    airFilter: "Air Filter",
+                    fuelFilter: "Fuel Filter",
+                    cabinFilter: "Cabin Filter",
+                    sparkPlugs: "Spark Plugs",
+                    timing: "Timing Belt",
+                    brakes: "Brakes",
+                    tires: "Tires",
+                    clutch: "Clutch",
+                    service: "Service",
+                    ac: "Air Conditioning",
+                    diagnostic: "Diagnostic",
+                    bodywork: "Bodywork",
+                    electrical: "Electrical",
+                    suspension: "Suspension",
+                    exhaust: "Exhaust",
+                    other: "Other"
+                }
+            }
+        };
+        
+        function t(key) {
+            const keys = key.split('.');
+            let value = translations[currentLang];
+            for (const k of keys) {
+                value = value[k];
+                if (!value) return key;
+            }
+            return value;
+        }
+        
+        function changeLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('app_language', lang);
+            render();
+        }
+        
+        // ========== CODE PRINCIPAL ==========
         function getUrlParameter(name) {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(name);
@@ -187,7 +403,7 @@
                 if (vehicles[targaUpper]) {
                     currentVehicle = targaUpper;
                 } else {
-                    if (confirm(`Il veicolo ${targaUpper} non esiste ancora.\n\nVuoi crearlo ora?`)) {
+                    if (confirm(t('vehicleNotExist') + ` ${targaUpper} ` + t('createNow'))) {
                         setTimeout(() => {
                             const input = document.getElementById('newVehicleTarga');
                             if (input) {
@@ -219,7 +435,7 @@
             const km = document.getElementById('newVehicleKm').value.trim();
 
             if (!targa) {
-                alert('Targa obbligatoria');
+                alert(t('plateRequired'));
                 return;
             }
 
@@ -248,7 +464,7 @@
             const note = document.getElementById('interventoNote').value;
 
             if (!tipo || !descrizione) {
-                alert('Tipo e descrizione obbligatori');
+                alert(t('typeDescRequired'));
                 return;
             }
 
@@ -277,7 +493,7 @@
         }
 
         function deleteIntervento(id) {
-            if (!confirm('Eliminare questo intervento?')) return;
+            if (!confirm(t('confirmDelete'))) return;
             
             vehicles[currentVehicle].interventi = 
                 vehicles[currentVehicle].interventi.filter(i => i.id !== id);
@@ -287,7 +503,7 @@
         }
 
         function deleteVehicle(targa) {
-            if (!confirm(`Eliminare definitivamente il veicolo ${targa} e tutto lo storico?`)) return;
+            if (!confirm(t('confirmDeleteVehicle') + ` ${targa}?`)) return;
             
             delete vehicles[targa];
             saveData();
@@ -369,7 +585,7 @@
                             <circle cx="8" cy="17" r="2" stroke-width="2"/>
                             <circle cx="16" cy="17" r="2" stroke-width="2"/>
                         </svg>
-                        <p>Nessun veicolo trovato</p>
+                        <p>${t('noVehicles')}</p>
                     </div>
                 `;
                 return;
@@ -412,13 +628,22 @@
                 app.innerHTML = `
                     <div class="min-h-screen">
                         <div class="bg-blue-600 text-white p-4 shadow-lg">
-                            <h1 class="text-2xl font-bold flex items-center gap-2">
-                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                                Tano Evoluzione
-                            </h1>
-                            <p class="text-sm text-blue-100 mt-1">🔧 Officina • Elettrauto • Aria Condizionata</p>
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h1 class="text-2xl font-bold flex items-center gap-2">
+                                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        ${t('appName')}
+                                    </h1>
+                                    <p class="text-sm text-blue-100 mt-1">${t('subtitle')}</p>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button onclick="changeLanguage('it')" class="px-3 py-1 rounded ${currentLang === 'it' ? 'bg-white text-blue-600' : 'bg-blue-700'} font-semibold">🇮🇹</button>
+                                    <button onclick="changeLanguage('fr')" class="px-3 py-1 rounded ${currentLang === 'fr' ? 'bg-white text-blue-600' : 'bg-blue-700'} font-semibold">🇫🇷</button>
+                                    <button onclick="changeLanguage('en')" class="px-3 py-1 rounded ${currentLang === 'en' ? 'bg-white text-blue-600' : 'bg-blue-700'} font-semibold">🇬🇧</button>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="p-4">
@@ -426,31 +651,31 @@
                                 <input
                                     type="text"
                                     id="searchInput"
-                                    placeholder="🔍 Cerca un veicolo..."
+                                    placeholder="${t('search')}"
                                     class="w-full px-4 py-2 border rounded-lg"
                                     oninput="filterVehicles()"
                                 />
                             </div>
 
                             <div class="bg-white rounded-lg shadow p-4 mb-4">
-                                <h2 class="text-lg font-bold mb-3">➕ Nuovo Veicolo</h2>
+                                <h2 class="text-lg font-bold mb-3">${t('newVehicle')}</h2>
                                 <div class="space-y-2">
-                                    <input type="text" id="newVehicleTarga" placeholder="Targa *" class="w-full px-3 py-2 border rounded text-lg font-bold uppercase">
+                                    <input type="text" id="newVehicleTarga" placeholder="${t('plate')} *" class="w-full px-3 py-2 border rounded text-lg font-bold uppercase">
                                     <div class="grid grid-cols-2 gap-2">
-                                        <input type="text" id="newVehicleMarca" placeholder="Marca" class="px-3 py-2 border rounded">
-                                        <input type="text" id="newVehicleModello" placeholder="Modello" class="px-3 py-2 border rounded">
+                                        <input type="text" id="newVehicleMarca" placeholder="${t('brand')}" class="px-3 py-2 border rounded">
+                                        <input type="text" id="newVehicleModello" placeholder="${t('model')}" class="px-3 py-2 border rounded">
                                     </div>
                                     <div class="grid grid-cols-2 gap-2">
-                                        <input type="number" id="newVehicleAnno" placeholder="Anno" class="px-3 py-2 border rounded">
-                                        <input type="number" id="newVehicleKm" placeholder="Chilometraggio" class="px-3 py-2 border rounded">
+                                        <input type="number" id="newVehicleAnno" placeholder="${t('year')}" class="px-3 py-2 border rounded">
+                                        <input type="number" id="newVehicleKm" placeholder="${t('mileage')}" class="px-3 py-2 border rounded">
                                     </div>
                                     <button onclick="addVehicle()" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700">
-                                        Aggiungi Veicolo
+                                        ${t('addVehicle')}
                                     </button>
                                 </div>
                             </div>
 
-                            <h2 class="text-xl font-bold mb-3">🚗 Veicoli (${vehiclesList.length})</h2>
+                            <h2 class="text-xl font-bold mb-3">${t('vehicles')} (${vehiclesList.length})</h2>
                             <div id="vehiclesList" class="space-y-3"></div>
                         </div>
                     </div>
