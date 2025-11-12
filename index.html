@@ -638,10 +638,12 @@
                                         <p class="text-xs text-blue-100 mt-1">${t('subtitle')}</p>
                                     </div>
                                 </div>
-                                <div class="flex gap-2">
-                                    <button onclick="changeLanguage('it')" class="px-3 py-1 rounded ${currentLang === 'it' ? 'bg-white text-blue-600' : 'bg-blue-700'} font-semibold text-sm">🇮🇹</button>
-                                    <button onclick="changeLanguage('fr')" class="px-3 py-1 rounded ${currentLang === 'fr' ? 'bg-white text-blue-600' : 'bg-blue-700'} font-semibold text-sm">🇫🇷</button>
-                                    <button onclick="changeLanguage('en')" class="px-3 py-1 rounded ${currentLang === 'en' ? 'bg-white text-blue-600' : 'bg-blue-700'} font-semibold text-sm">🇬🇧</button>
+                                <div>
+                                    <select onchange="changeLanguage(this.value)" class="px-3 py-2 rounded bg-white text-blue-600 font-semibold text-sm cursor-pointer border-2 border-blue-400 focus:outline-none focus:ring-2 focus:ring-white">
+                                        <option value="it" ${currentLang === 'it' ? 'selected' : ''}>🇮🇹 Italiano</option>
+                                        <option value="fr" ${currentLang === 'fr' ? 'selected' : ''}>🇫🇷 Français</option>
+                                        <option value="en" ${currentLang === 'en' ? 'selected' : ''}>🇬🇧 English</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
